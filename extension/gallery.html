@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>商品图库 · 电商图片提取助手</title>
+  <link rel="stylesheet" href="gallery.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar__info">
+      <h1 class="topbar__title">商品图库</h1>
+      <p class="topbar__source" id="source-info">正在读取提取结果…</p>
+    </div>
+
+    <div class="topbar__actions">
+      <button class="btn btn--ghost" id="btn-select-all" type="button">全选</button>
+      <button class="btn btn--ghost" id="btn-invert" type="button">反选</button>
+      <span class="counter" id="counter">已选 0 张</span>
+      <button class="btn btn--primary" id="btn-download" type="button" disabled>下载选中</button>
+    </div>
+  </header>
+
+  <!-- 下载进度条：仅在下载期间显示 -->
+  <section class="progress" id="progress" hidden>
+    <div class="progress__bar"><div class="progress__fill" id="progress-fill"></div></div>
+    <p class="progress__text" id="progress-text">准备中…</p>
+  </section>
+
+  <!-- 结果反馈：下载结束后的汇总 -->
+  <section class="result" id="result" hidden></section>
+
+  <main class="grid" id="grid"></main>
+
+  <section class="empty" id="empty" hidden>
+    <div class="empty__icon">🗂</div>
+    <h2>还没有提取到图片</h2>
+    <p>打开淘宝 / 天猫 / 京东 / 拼多多的商品详情页，点击右下角「获取图片」按钮再回到这里。</p>
+  </section>
+
+  <script src="gallery.js"></script>
+</body>
+</html>

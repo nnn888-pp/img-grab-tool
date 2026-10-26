@@ -1,0 +1,166 @@
+/* ========= 全局 ========= */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: #1a1a2e;
+  line-height: 1.6;
+  background: #fafbff;
+}
+a { color: inherit; text-decoration: none; }
+code {
+  background: #eef1ff;
+  color: #6366f1;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* ========= 导航 ========= */
+.navbar {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid #eef1ff;
+}
+.nav-inner {
+  max-width: 1100px; margin: 0 auto; padding: 14px 24px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 18px; }
+.logo em { font-style: normal; font-weight: 400; color: #888; font-size: 13px; margin-left: 4px; }
+.logo-icon { font-size: 22px; }
+.nav-links { display: flex; list-style: none; gap: 28px; margin: 0; padding: 0; align-items: center; }
+.nav-links a { font-size: 14px; color: #555; transition: color .2s; }
+.nav-links a:hover { color: #6366f1; }
+.nav-cta {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #fff !important;
+  padding: 8px 18px;
+  border-radius: 22px;
+  font-weight: 600;
+}
+.nav-toggle { display: none; background: none; border: none; font-size: 24px; cursor: pointer; }
+
+/* ========= Hero ========= */
+.hero {
+  padding: 80px 24px 60px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+  max-width: 1100px; margin: 0 auto; align-items: center;
+}
+.hero-title { font-size: 44px; line-height: 1.2; margin: 0 0 16px; }
+.gradient-text {
+  background: linear-gradient(135deg, #6366f1, #ec4899);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.hero-sub { color: #666; font-size: 16px; margin: 0 0 28px; max-width: 460px; }
+.hero-actions { display: flex; gap: 14px; margin-bottom: 40px; flex-wrap: wrap; }
+.hero-stats { display: flex; gap: 40px; }
+.hero-stats div { text-align: center; }
+.hero-stats strong { display: block; font-size: 28px; color: #6366f1; }
+.hero-stats span { font-size: 13px; color: #888; }
+
+/* Hero 浏览器 mock */
+.hero-visual { position: relative; }
+.mock-browser {
+  background: #fff; border-radius: 16px; box-shadow: 0 20px 60px rgba(99,102,241,0.15);
+  overflow: hidden; border: 1px solid #eef1ff;
+}
+.mock-bar { background: #f3f4f6; padding: 10px 14px; display: flex; gap: 6px; }
+.mock-bar span { width: 10px; height: 10px; border-radius: 50%; background: #e5e7eb; }
+.mock-bar span:first-child { background: #f87171; }
+.mock-bar span:nth-child(2) { background: #fbbf24; }
+.mock-bar span:nth-child(3) { background: #34d399; }
+.mock-body {
+  padding: 20px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+}
+.mock-img {
+  aspect-ratio: 1;
+  background: linear-gradient(135deg, #e0e7ff, #fce7f3);
+  border-radius: 8px;
+}
+.mock-btn {
+  margin: 0 20px 20px;
+  padding: 14px; text-align: center;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #fff; border-radius: 10px; font-weight: 600; font-size: 14px;
+}
+
+/* ========= 按钮 ========= */
+.btn {
+  display: inline-block; padding: 12px 26px; border-radius: 10px;
+  font-weight: 600; font-size: 15px; cursor: pointer; border: none;
+  transition: transform .15s, box-shadow .15s;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn-primary {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #fff; box-shadow: 0 6px 20px rgba(99,102,241,0.3);
+}
+.btn-ghost { background: #f3f4f6; color: #555; }
+.btn-lg { padding: 16px 40px; font-size: 17px; }
+
+/* ========= 区块 ========= */
+.section { padding: 80px 24px; }
+.section-alt { background: #fff; }
+.section-title { text-align: center; font-size: 32px; margin: 0 0 12px; }
+.section-lead { text-align: center; color: #666; margin: 0 auto; max-width: 560px; }
+
+/* ========= 功能卡 ========= */
+.grid { display: grid; gap: 24px; }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.feature-card {
+  background: #fff; padding: 28px; border-radius: 16px;
+  border: 1px solid #eef1ff; transition: transform .2s, box-shadow .2s;
+}
+.feature-card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(99,102,241,0.1); }
+.feature-icon { font-size: 32px; margin-bottom: 12px; }
+.feature-card h3 { margin: 0 0 8px; font-size: 18px; }
+.feature-card p { margin: 0; color: #666; font-size: 14px; }
+
+/* ========= 时间线 ========= */
+.timeline { list-style: none; padding: 0; margin: 40px auto 0; max-width: 680px; }
+.timeline li {
+  display: flex; gap: 20px; margin-bottom: 28px;
+  background: #fafbff; border: 1px solid #eef1ff; border-radius: 12px; padding: 20px;
+}
+.tl-num {
+  flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #fff; display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 18px;
+}
+.timeline h3 { margin: 0 0 6px; font-size: 17px; }
+.timeline p { margin: 0; color: #666; font-size: 14px; }
+
+/* ========= CTA ========= */
+.cta-box {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  border-radius: 24px; padding: 60px 40px; text-align: center; color: #fff;
+}
+.cta-box h2 { font-size: 32px; margin: 0 0 8px; }
+.cta-box p { margin: 0 0 24px; opacity: 0.9; }
+.cta-hint { margin-top: 16px !important; font-size: 13px; opacity: 0.7; }
+
+/* ========= 页脚 ========= */
+.footer { padding: 32px 24px; text-align: center; color: #999; font-size: 13px; border-top: 1px solid #eef1ff; }
+
+/* ========= 响应式 ========= */
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; padding: 50px 24px 30px; }
+  .hero-title { font-size: 34px; }
+  .grid-3 { grid-template-columns: repeat(2, 1fr); }
+  .section-title { font-size: 26px; }
+}
+@media (max-width: 600px) {
+  .nav-links { display: none; }
+  .nav-toggle { display: block; }
+  .hero-title { font-size: 28px; }
+  .hero-stats { gap: 24px; }
+  .grid-3 { grid-template-columns: 1fr; }
+  .section { padding: 50px 20px; }
+  .cta-box { padding: 40px 24px; }
+}

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>图提取 ImageGrab — 电商图片一键下载</title>
+  <meta name="description" content="Chrome 浏览器扩展，一键抓取淘宝、京东、拼多多等电商详情页所有商品图片，支持批量下载为 ZIP。" />
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+<body>
+  <!-- 导航栏 -->
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="#" class="logo">
+        <span class="logo-icon">🖼️</span>
+        <span>图提取 <em>ImageGrab</em></span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#features">功能</a></li>
+        <li><a href="#howto">安装</a></li>
+        <li><a href="#download" class="nav-cta">立即下载</a></li>
+      </ul>
+      <button class="nav-toggle" aria-label="菜单">☰</button>
+    </div>
+  </nav>
+
+  <!-- Hero 区 -->
+  <header class="hero">
+    <div class="hero-inner">
+      <h1 class="hero-title">
+        电商图片<br />
+        <span class="gradient-text">一键抓取 · 批量下载</span>
+      </h1>
+      <p class="hero-sub">Chrome 扩展 · 淘宝 / 京东 / 拼多多商品详情页，所有主图、详情图、SKU 图一网打尽。</p>
+      <div class="hero-actions">
+        <a href="#download" class="btn btn-primary" download="imagegrab.zip">⬇️ 下载扩展</a>
+        <a href="#features" class="btn btn-ghost">了解更多</a>
+      </div>
+      <div class="hero-stats">
+        <div><strong>3+</strong><span>平台适配</span></div>
+        <div><strong>∞</strong><span>图片数量</span></div>
+        <div><strong>零</strong><span>带宽/成本</span></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="mock-browser">
+        <div class="mock-bar"><span></span><span></span><span></span></div>
+        <div class="mock-body">
+          <div class="mock-img"></div>
+          <div class="mock-img"></div>
+          <div class="mock-img"></div>
+          <div class="mock-img"></div>
+          <div class="mock-img"></div>
+          <div class="mock-img"></div>
+        </div>
+        <div class="mock-btn">📦 打包下载全部（6 张）</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- 产品介绍 -->
+  <section class="section section-alt" id="intro">
+    <div class="container">
+      <h2 class="section-title">一个为电商人量身打造的小工具</h2>
+      <p class="section-lead">做商品分析、竞品调研、素材整理时，再也不用右键另存几十张图了。</p>
+    </div>
+  </section>
+
+  <!-- 功能卡片 -->
+  <section class="section" id="features">
+    <div class="container">
+      <h2 class="section-title">核心功能</h2>
+      <div class="grid grid-3">
+        <div class="feature-card">
+          <div class="feature-icon">🎯</div>
+          <h3>精准抓取</h3>
+          <p>自动识别 img、srcset、data-src、CSS 背景图，兼容各家电商懒加载写法。</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🧭</div>
+          <h3>去重过滤</h3>
+          <p>相同 URL 自动去重，小于阈值的图标广告自动过滤，只给你真正想看的商品图。</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📦</div>
+          <h3>批量下载</h3>
+          <p>单张另存，或勾选多张一键打包为 ZIP，全部转为 PNG 格式整洁归档。</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🖥️</div>
+          <h3>新页预览</h3>
+          <p>抓取结果在新标签页网格展示，点开大图，拖拽选择，一目了然。</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔒</div>
+          <h3>本地运行</h3>
+          <p>纯前端扩展，零服务器、零上传、零采集，你的浏览数据只留在你的电脑上。</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">💸</div>
+          <h3>完全免费</h3>
+          <p>个人和商业用途均可，不收取任何费用，也不会弹出恼人的广告。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 安装时间线 -->
+  <section class="section section-alt" id="howto">
+    <div class="container">
+      <h2 class="section-title">四步安装，30 秒上手</h2>
+      <ol class="timeline">
+        <li>
+          <span class="tl-num">1</span>
+          <div>
+            <h3>下载扩展包</h3>
+            <p>点击本页底部下载按钮，得到 <code>imagegrab.zip</code>，解压到任意本地文件夹。</p>
+          </div>
+        </li>
+        <li>
+          <span class="tl-num">2</span>
+          <div>
+            <h3>打开扩展管理页</h3>
+            <p>Chrome 地址栏输入 <code>chrome://extensions</code>，回车。</p>
+          </div>
+        </li>
+        <li>
+          <span class="tl-num">3</span>
+          <div>
+            <h3>加载扩展</h3>
+            <p>右上角开启「开发者模式」，点击「加载已解压的扩展程序」，选择刚才解压的文件夹。</p>
+          </div>
+        </li>
+        <li>
+          <span class="tl-num">4</span>
+          <div>
+            <h3>开始使用</h3>
+            <p>打开淘宝 / 京东 / 拼多多商品详情页，右下角会出现紫色「获取图片」按钮，点一下就行。</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 下载 CTA -->
+  <section class="section" id="download">
+    <div class="container cta-box">
+      <h2>准备好了吗？</h2>
+      <p>现在下载，下一次竞品分析就能省下 10 分钟。</p>
+      <a href="./imagegrab.zip" class="btn btn-primary btn-lg" download="imagegrab.zip">⬇️ 立即下载 imagegrab.zip</a>
+      <p class="cta-hint">Chrome 浏览器 · 无需登录 · 解压即用</p>
+    </div>
+  </section>
+
+  <!-- 页脚 -->
+  <footer class="footer">
+    <p>© 2026 图提取 ImageGrab · 个人学习项目 · 与任何电商平台无关</p>
+  </footer>
+
+  <script src="./js/main.js"></script>
+</body>
+</html>

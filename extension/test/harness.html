@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>提取逻辑自测 · 电商图片提取助手</title>
+  <style>
+    body { font: 14px/1.6 -apple-system, "Microsoft YaHei", sans-serif; margin: 32px; max-width: 980px; }
+    h1 { font-size: 18px; }
+    table { border-collapse: collapse; width: 100%; margin-top: 16px; }
+    th, td { border-bottom: 1px solid #e6e8eb; padding: 6px 8px; text-align: left; vertical-align: top; font-size: 13px; }
+    td.res { font-weight: 700; white-space: nowrap; }
+    .pass { color: #22a06b; }
+    .fail { color: #e8431f; }
+    code { background: #f2f3f5; padding: 1px 4px; border-radius: 4px; }
+    #summary { margin-top: 12px; font-weight: 600; }
+    #fixtures { display: none; }
+  </style>
+</head>
+<body>
+  <h1>提取逻辑自测（content.js 纯函数 + 采集流程）</h1>
+  <p>打开本文件即可运行，无需加载扩展。断言全部依赖真实 DOM 与 <code>content.js</code> 的实现。</p>
+  <div id="summary">运行中…</div>
+  <table>
+    <thead>
+      <tr><th>用例</th><th>结果</th><th>实际值</th></tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
+
+  <!-- 测试夹具：模拟商品页里典型的图片结构（图片本身不需要真正加载） -->
+  <div id="fixtures">
+    <!-- 1. 淘宝 CDN 缩略图后缀应被还原成原图 -->
+    <img src="https://img.alicdn.com/imgextra/i1/O1CN01abc_!!0-item_pic.jpg_430x430q90.jpg" style="width:800px;height:800px" />
+
+    <!-- 2. 懒加载：src 是占位图，真实地址在 data-src -->
+    <img src="data:image/gif;base64,R0lGODlhAQABAAAAACw=" data-src="//img.alicdn.com/imgextra/i2/O1CN01lazy_!!0-item_pic.jpg" style="width:600px;height:600px" />
+
+    <!-- 3. srcset 多倍图，应选最大的 1200w -->
+    <img srcset="https://img14.360buyimg.com/n1/jfs/t1/a.jpg 300w, https://img14.360buyimg.com/n0/jfs/t1/a.jpg 1200w" style="width:700px;height:700px" />
+
+    <!-- 4. 小图（图标）应被过滤 -->
+    <img src="https://img.alicdn.com/imgextra/i3/icon_32x32.png" style="width:32px;height:32px" />
+
+    <!-- 5. logo 关键词应被过滤 -->
+    <img src="https://img.alicdn.com/bao/uploaded/logo_200x200.png" style="width:200px;height:200px" />
+
+    <!-- 6. 背景图应被采集 -->
+    <div style="width:500px;height:500px;background-image:url('https://img.pddpic.com/mms-material-img/2024-01-01/bg-goods.jpg')"></div>
+
+    <!-- 7. svg 应被过滤 -->
+    <img src="https://img.alicdn.com/imgextra/i4/sprite.svg" style="width:300px;height:300px" />
+
+    <!-- 8. 与 1 同源（去掉缩略后缀后重复）应被去重 -->
+    <img src="https://img.alicdn.com/imgextra/i1/O1CN01abc_!!0-item_pic.jpg" style="width:800px;height:800px" />
+  </div>
+
+  <script src="../extension/content.js"></script>
+  <script>
+    const api = window.__SHOP_IMG_PLUGIN_API__;
+    const rows = document.getElementById('rows');
+    const summary = document.getElementById('summary');
+
+    const cases = [];
+    const test = (name, fn) => cases.push({ name, fn });
+
+    const assertEqual = (actual, expected, label = '') => {
+      if (actual !== expected) throw new Error(`${label}期望 ${JSON.stringify(expected)}，实际 ${JSON.stringify(actual)}`);
+      return actual;
+    };
+
+    test('淘宝缩略图后缀还原为原图', () => {
+      const url = api.normalizeUrl(
+        'https://img.alicdn.com/imgextra/i1/O1CN01abc_!!0-item_pic.jpg_430x430q90.jpg'
+      );
+      return assertEqual(url, 'https://img.alicdn.com/imgextra/i1/O1CN01abc_!!0-item_pic.jpg');
+    });
+
+    test('webp 后缀还原为原图', () => {
+      const url = api.normalizeUrl('https://img.alicdn.com/a/b.jpg_.webp');
+      return assertEqual(url, 'https://img.alicdn.com/a/b.jpg');
+    });
+
+    test('相对路径补全为绝对 URL', () => {
+      const url = api.normalizeUrl('//img.alicdn.com/x/y.jpg');
+      return assertEqual(url, 'https://img.alicdn.com/x/y.jpg');
+    });
+
+    test('data: / blob: 协议被丢弃', () => {
+      return assertEqual(api.normalizeUrl('data:image/png;base64,AAAA'), null);
+    });
+
+    test('srcset 取最大宽度候选', () => {
+      const best = api.parseSrcset('a.jpg 300w, b.jpg 1200w, c.jpg 800w');
+      return assertEqual(best, 'b.jpg');
+    });
+
+    test('整页提取结果（夹具页面）', () => {
+      const images = api.extractImages();
+      const urls = images.map((i) => i.url);
+      window.__extracted = urls;
+
+      assertEqual(urls.includes('https://img.alicdn.com/imgextra/i1/O1CN01abc_!!0-item_pic.jpg'), true, '[原图]');
+      assertEqual(urls.includes('https://img.alicdn.com/imgextra/i2/O1CN01lazy_!!0-item_pic.jpg'), true, '[懒加载]');
+      assertEqual(urls.includes('https://img14.360buyimg.com/n0/jfs/t1/a.jpg'), true, '[srcset 最大图]');
+      assertEqual(urls.includes('https://img.pddpic.com/mms-material-img/2024-01-01/bg-goods.jpg'), true, '[背景图]');
+      assertEqual(urls.some((u) => u.includes('icon_32x32')), false, '[小图应过滤]');
+      assertEqual(urls.some((u) => u.includes('logo_200x200')), false, '[logo 应过滤]');
+      assertEqual(urls.some((u) => u.endsWith('.svg')), false, '[svg 应过滤]');
+      assertEqual(urls.filter((u) => u.includes('O1CN01abc_!!0-item_pic.jpg')).length, 1, '[去重]');
+      return images.length + ' 张 → ' + urls.map((u) => u.replace(/^https:\/\//, '')).join(' | ');
+    });
+
+    test('非详情页不挂按钮（当前为 file:// 测试页）', () => {
+      return assertEqual(document.getElementById('shop-img-plugin-btn'), null);
+    });
+
+    let passed = 0;
+    for (const { name, fn } of cases) {
+      const tr = document.createElement('tr');
+      const tdName = document.createElement('td');
+      const tdRes = document.createElement('td');
+      const tdVal = document.createElement('td');
+      tdName.textContent = name;
+      tdRes.className = 'res';
+      try {
+        const value = fn();
+        tdRes.textContent = 'PASS';
+        tdRes.classList.add('pass');
+        tdVal.textContent = value === undefined ? 'ok' : String(value);
+        passed += 1;
+      } catch (error) {
+        tdRes.textContent = 'FAIL';
+        tdRes.classList.add('fail');
+        tdVal.textContent = error.message;
+      }
+      tr.append(tdName, tdRes, tdVal);
+      rows.appendChild(tr);
+    }
+
+    summary.textContent = `${passed}/${cases.length} 通过`;
+    summary.className = passed === cases.length ? 'pass' : 'fail';
+  </script>
+</body>
+</html>
